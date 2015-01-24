@@ -3,7 +3,12 @@ var gulp = require('gulp'),
     fs = require('fs'),
     git = require('gulp-git'),
     config = require('yaml-config')
-    settings = config.readConfig('./settings.yml');
+    settings = config.readConfig('./settings.yml'),
+    args = require('yargs').argv;
+
+gulp.task('verify', ['clone'], function(){
+  console.log(args.e.split(" "));
+});
 
 gulp.task('clone', ['clean'], function(){
   fs.mkdirSync('./components');
@@ -19,4 +24,4 @@ gulp.task('clean', function(){
   .pipe(clean());
 });
 
-gulp.task('default', ['clean', 'clone']);
+gulp.task('default', ['clean', 'clone', 'verify']);
