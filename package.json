@@ -1,0 +1,25 @@
+{
+  "name": "simple-socialite-gulp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sunlightlabs/simple-socialite"
+  },
+  "dependencies": {},
+  "author": "\"Corey Speisman, Dan Drinkard, Sunlight Labs\"",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sunlightlabs/simple-socialite/issues"
+  },
+  "homepage": "https://github.com/sunlightlabs/simple-socialite",
+  "devDependencies": {
+    "gulp": "*",
+    "gulp-clean": "^0.3.1",
+    "gulp-download": "0.0.1"
+  }
+}
