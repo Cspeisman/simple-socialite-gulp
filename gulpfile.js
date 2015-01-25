@@ -4,24 +4,44 @@ var gulp = require('gulp'),
     git = require('gulp-git'),
     config = require('yaml-config')
     settings = config.readConfig('./settings.yml'),
-    args = require('yargs').argv;
+    args = require('yargs').argv,
+    glob = require('glob')
+    _ = require('underscore');
 
-gulp.task('verify', ['clone'], function(){
-  console.log(args.e.split(" "));
-});
+
+function verifyExtensions(){
+  tmp_arr = []
+  extensions = args.e.split(" ")  
+  files = glob.sync('./components/**/*');
+
+  _.each(extensions, function(ext){
+    _.each(files, function(file){
+      re = new RegExp(ext)
+      if(file.match(re)){
+        console.log(file)
+        tmp_arr.push(ext)
+      }
+    });
+  });
+  console.log(tmp_arr)
+}
 
 gulp.task('clone', ['clean'], function(){
   fs.mkdirSync('./components');
-  settings.libraries.forEach(function(repo){
+  _.each(settings.libraries, function(repo){
     git.clone('https://github.com/' + repo, {cwd: './components'}, function (err) {
+      if(repo == _.last(settings.libraries)){
+        verifyExtensions();
+      } 
       if (err) throw err;
-    })
-  })
+    });
+  });
 });
+
 
 gulp.task('clean', function(){
   return gulp.src(['./build', './components'], {read: false})
   .pipe(clean());
 });
 
-gulp.task('default', ['clean', 'clone', 'verify']);
+gulp.task('default', ['clone']);

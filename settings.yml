@@ -1,5 +1,5 @@
 default:
   libraries: 
-    - 'tmort/socialite'
-    - 'drinks/socialite-extensions'
     - 'sunlightlabs/sf-icons'
+    - 'drinks/socialite-extensions'
+    - 'tmort/socialite'
