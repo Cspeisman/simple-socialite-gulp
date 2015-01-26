@@ -3,3 +3,10 @@ default:
     - 'sunlightlabs/sf-icons'
     - 'drinks/socialite-extensions'
     - 'tmort/socialite'
+  DEBUG: false
+  DEFAULT_LANG: 'en-US'
+  ICON_BASE_URL: 'images'
+  SOCIALITE_SOURCE: 'dbushell/Socialite#socialite.js'
+  EXTENSIONS_PATH: './components/extensions'
+  EXTENXSIONS_SOURCES:
+    - 'dbushell/Socialite.git#extensions'

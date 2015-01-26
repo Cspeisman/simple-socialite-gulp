@@ -12,14 +12,23 @@ var gulp = require('gulp'),
     rename = require('gulp-rename');
 
 
+
 gulp.task('coffee', ['clone'], function(){
-  gulp.src('./src/*.coffee')
+  return gulp.src('./src/*.coffee')
   .pipe(coffee({bare: true}))
   .pipe(gulp.dest('./build/'))
-  .pipe(rename({suffix: '.min'}))
-  .pipe(uglify())
-  .pipe(gulp.dest('./build'))
+  .on('end', addSettings)
 });
+
+function addSettings(){
+  var file, js;
+  file = './build/simple-socialite.js';
+  function replacer(match, capture) {
+    return settings[capture];
+  }
+  js = fs.readFileSync(file).toString().replace(/\{% settings\.([A-Z_]+) %\}/g, replacer);
+  fs.writeFileSync(file, js);
+}
 
 // function verifyExtensions(){
 //   tmp_arr = []
@@ -57,3 +66,4 @@ gulp.task('clean', function(){
 });
 
 gulp.task('default', ['coffee']);
+

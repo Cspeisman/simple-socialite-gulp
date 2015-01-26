@@ -39,7 +39,7 @@ check = (function(_this) {
       }
     } else {
       $ = jQuery;
-      DEBUG = ("{% settings.DEBUG %}".toLowerCase() === "true") || false;
+      DEBUG = ("false".toLowerCase() === "true") || false;
       debug = function() {
         var msgs;
         msgs = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
@@ -430,7 +430,7 @@ check = (function(_this) {
         };
 
         OptionMapper.prototype.button_img = function() {
-          return "{% settings.ICON_BASE_URL %}/" + this.options['size'] + "/" + (this.provider_icon_name()) + ".png";
+          return "images/" + this.options['size'] + "/" + (this.provider_icon_name()) + ".png";
         };
 
         OptionMapper.prototype.translate = function() {
@@ -465,7 +465,7 @@ check = (function(_this) {
             delete this.options['showCounts'];
           }
           if (!this.options['lang']) {
-            this.options['lang'] = "{% settings.DEFAULT_LANG %}";
+            this.options['lang'] = "en-US";
           }
           try {
             this.translations[this.provider]();
