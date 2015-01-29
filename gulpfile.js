@@ -47,12 +47,19 @@ function addSettings(){
 //   console.log(tmp_arr)
 // }
 
-gulp.task('clone', ['clean'], function(){
+gulp.task('verify', ['clone'], function(){
+  files = glob.sync('./components/**/*');
+  console.log('called back!')
+  console.log(files)
+});
+
+gulp.task('clone', ['clean'], function(cb){
+  console.log('cleaned');
   fs.mkdirSync('./components');
   _.each(settings.libraries, function(repo){
     git.clone('https://github.com/' + repo, {cwd: './components'}, function (err) {
       if(repo == _.last(settings.libraries)){
-        // verifyExtensions();
+        cb();
       } 
       if (err) throw err;
     });
@@ -65,5 +72,7 @@ gulp.task('clean', function(){
   .pipe(clean());
 });
 
-gulp.task('default', ['coffee']);
+gulp.task('default', ['clean', 'clone', 'verify'], function(){
+  console.log('finished')
+});
 
