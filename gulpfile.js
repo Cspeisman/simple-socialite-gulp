@@ -17,20 +17,21 @@ gulp.task('clean', ['minify'], function(){
    return gulp.src(['./.tmp'], {read: false})
   .pipe(clean());
 })
+
 gulp.task('minify', ['pack'], function(){
   return gulp.src('./build/*.js')
   .pipe(uglify())
   .pipe(rename({suffix: '.min'}))
-  .pipe(gulp.dest('./build'))
+  .pipe(gulp.dest('./build'));
 });
 
 gulp.task('pack', ['coffee'], function(){
   js = fs.readFileSync("./components/socialite/socialite.js").toString() + "\n";
   paths = glob.sync("./.tmp/*.js");
   _.each(paths, function(file){
-    js += fs.readFileSync(file).toString() + "\n"
+    js += fs.readFileSync(file).toString() + "\n";
   });
-  js += fs.readFileSync("./build/simple-socialite.js").toString() + "\n"
+  js += fs.readFileSync("./build/simple-socialite.js").toString() + "\n";
   return fs.writeFileSync("./build/simple-socialite-pack.js", js);
 });
 
@@ -38,7 +39,7 @@ gulp.task('coffee', ['verify'], function(){
   return gulp.src('./src/*.coffee')
   .pipe(coffee({bare: true}))
   .pipe(gulp.dest('./build/'))
-  .on('end', addSettings)
+  .on('end', addSettings);
 });
 
 function addSettings(){
@@ -87,5 +88,7 @@ gulp.task('clear', function(){
   .pipe(clean());
 });
 
-gulp.task('default', ['clear', 'clone', 'verify', 'coffee', 'pack', 'minify', 'clean']);
+gulp.task('default', ['clear', 'clone', 'verify', 'coffee', 'pack', 'minify', 'clean'], function(){
+  console.log('simple-socialite-pack built successfully!')
+});
 
