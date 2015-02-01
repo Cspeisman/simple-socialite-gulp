@@ -13,6 +13,27 @@ var gulp = require('gulp'),
     rename = require('gulp-rename');
 
 
+gulp.task('clean', ['minify'], function(){
+   return gulp.src(['./.tmp'], {read: false})
+  .pipe(clean());
+})
+gulp.task('minify', ['pack'], function(){
+  return gulp.src('./build/*.js')
+  .pipe(uglify())
+  .pipe(rename({suffix: '.min'}))
+  .pipe(gulp.dest('./build'))
+});
+
+gulp.task('pack', ['coffee'], function(){
+  js = fs.readFileSync("./components/socialite/socialite.js").toString() + "\n";
+  paths = glob.sync("./.tmp/*.js");
+  _.each(paths, function(file){
+    js += fs.readFileSync(file).toString() + "\n"
+  });
+  js += fs.readFileSync("./build/simple-socialite.js").toString() + "\n"
+  return fs.writeFileSync("./build/simple-socialite-pack.js", js);
+});
+
 gulp.task('coffee', ['verify'], function(){
   return gulp.src('./src/*.coffee')
   .pipe(coffee({bare: true}))
@@ -29,16 +50,6 @@ function addSettings(){
   js = fs.readFileSync(file).toString().replace(/\{% settings\.([A-Z_]+) %\}/g, replacer);
   fs.writeFileSync(file, js);
 }
-
-gulp.task('pack', ['coffee'], function(){
-  js = fs.readFileSync("./components/socialite/socialite.js").toString() + "\n";
-  paths = glob.sync("./.tmp/*.js");
-  _.each(paths, function(file){
-    js += fs.readFileSync(file).toString() + "\n"
-  });
-  js += fs.readFileSync("./build/simple-socialite.js").toString() + "\n"
-  return fs.writeFileSync("./build/simple-socialite-pack.js", js);
-});
 
 gulp.task('verify', ['clone'], function(){
   extensions_path = [];
@@ -58,7 +69,7 @@ gulp.task('verify', ['clone'], function(){
 
 });
 
-gulp.task('clone', ['clean'], function(cb){
+gulp.task('clone', ['clear'], function(cb){
   fs.mkdirSync('./components');
   _.each(settings.libraries, function(repo){
     git.clone('https://github.com/' + repo, {cwd: './components'}, function (err) {
@@ -71,12 +82,10 @@ gulp.task('clone', ['clean'], function(cb){
 });
 
 
-gulp.task('clean', function(){
+gulp.task('clear', function(){
   return gulp.src(['./build', './components', './build', './.tmp'], {read: false})
   .pipe(clean());
 });
 
-gulp.task('default', ['clean', 'clone', 'verify', 'coffee', 'pack'], function(){
-  console.log('finished')
-});
+gulp.task('default', ['clear', 'clone', 'verify', 'coffee', 'pack', 'minify', 'clean']);
 
