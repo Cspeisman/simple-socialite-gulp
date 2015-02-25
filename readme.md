@@ -15,6 +15,8 @@ Build your own and post assets to a server:
     # twitter, facebook, and googleplus are already built into socialite
     # so there is no need to specificy those extensions in the build
 
+Run the gulp command with an `--e` flag and whatever extensions to add as arguments
+
     $ gulp --e "hackernews github whatever other extensions"
 
 Implement all your widgets in one single tag using the data attribute
@@ -32,3 +34,15 @@ Implement all your widgets in one single tag using the data attribute
         </body>
     </html>
   ```
+
+---
+
+### Running the example file:
+
+Run the following commands from the root directy of this project
+
+    $ gulp --e 'twitter-simple facebook-simple linkedin linkedin-simple googleplus-simple hackernews tumblr-simple'
+
+    $ python -m SimpleHTTPServer
+
+Then go to [http://localhost:8000/example/](http://localhost:8000/example/) and see all your assets built on the page
